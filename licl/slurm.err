@@ -1,0 +1,14 @@
+/usr/local/apps/anaconda2/4.2.0/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+/home/jyu5/pyscf/pyscf/pbc/tools/lattice.py:121: UserWarning: Use ase.build.bulk() instead
+  ase_atom = bulk('LiCl', 'rocksalt', a=5.13*A2B)
+/home/jyu5/pyscf/pyscf/pbc/gto/cell.py:455: RuntimeWarning: divide by zero encountered in divide
+  log_rest = np.log(precision*l2fac2**2*(4*alpha)**(l*2+1) / (32*np.pi**2*c**4*weight))
+/home/jyu5/pyscf/pyscf/pbc/gto/cell.py:458: RuntimeWarning: invalid value encountered in subtract
+  Ecut = 2*alpha * (log_k0*(4*l+3) - log_rest)
+/home/jyu5/pyscf/pyscf/pbc/gto/eval_gto.py:177: RuntimeWarning: divide by zero encountered in log
+  r = (((l+2)*numpy.log(r)+numpy.log(cs) - log_prec) / es)**.5
+/home/jyu5/pyscf/pyscf/pbc/gto/eval_gto.py:177: RuntimeWarning: invalid value encountered in sqrt
+  r = (((l+2)*numpy.log(r)+numpy.log(cs) - log_prec) / es)**.5
+/home/jyu5/pyscf/pyscf/pbc/gto/eval_gto.py:178: RuntimeWarning: divide by zero encountered in log
+  r = (((l+2)*numpy.log(r)+numpy.log(cs) - log_prec) / es)**.5

@@ -1,0 +1,177 @@
+tmpdir is set to /home/jyu5/work/testsets/cds
+#INFO: **** input file is /home/jyu5/work/testsets/cds/pyscf_cds.py ****
+#!/usr/bin/env python
+
+from pyscf.pbc import gto, scf, dft
+import numpy
+import time
+from pyscf.pbc.tools import lattice,pyscf_ase
+import ase
+
+cell = gto.Cell()
+ase_atom = lattice.get_ase_atom('cds')
+cell.atom=pyscf_ase.ase_atoms_to_pyscf(ase_atom)
+cell.a=ase_atom.cell
+cell.basis = 'gth-dzvp-molopt'
+cell.pseudo = 'gth-pade'
+cell.verbose=4
+cell.build()
+
+#mf = scf.RHF(cell)
+#ehf = mf.kernel()
+#print("HF energy (per unit cell) = %.17g" % ehf)
+
+start = time.time()
+
+mf = dft.RKS(cell)
+mf = mf.newton()
+mf.xc = 'lda'
+mf.direct_scf=True
+edft = mf.kernel()
+print("DFT energy (per unit cell) = %.17g" % edft)
+
+
+end = time.time()
+print 'DFT compute time', (end-start)
+
+#INFO: ******************** input file end ********************
+
+
+System: ('Linux', 'pauling043', '3.10.0-327.36.3.el7.x86_64', '#1 SMP Thu Oct 20 04:56:07 EDT 2016', 'x86_64', 'x86_64')  Threads 1
+Python 2.7.12 |Anaconda custom (64-bit)| (default, Jul  2 2016, 17:42:40) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]
+numpy 1.14.3  scipy 1.1.0
+Date: Wed May  9 14:04:05 2018
+PySCF version 1.5b
+PySCF path  /home/jyu5/pyscf/pyscf
+GIT HEAD      ref: refs/heads/dev
+GIT dev branch  712e40e23e7a7c928f2e0c27498b3fa5f122454b
+
+[ENV] PYSCF_MAX_MEMORY 20000
+[ENV] PYSCF_TMPDIR /scratch/local/jyu5
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 2
+[INPUT] num. electrons = 18
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT]  1 Cd     0.000000000000   0.000000000000   0.000000000000 AA    0.000000000000   0.000000000000   0.000000000000 Bohr
+[INPUT]  2 S      2.755220491962   2.755220491962   2.755220491962 AA    5.206612142598   5.206612142598   5.206612142598 Bohr
+
+nuclear repulsion = -22.5855587285784
+number of shells = 7
+number of NR pGTOs = 134
+number of NR cGTOs = 38
+basis = gth-dzvp-molopt
+ecp = {}
+CPU time:         0.42
+lattice vectors  a1 [0.000000000, 10.413224285, 10.413224285]
+                 a2 [10.413224285, 0.000000000, 10.413224285]
+                 a3 [10.413224285, 10.413224285, 0.000000000]
+dimension = 3
+Cell volume = 2258.32
+rcut = 30.052257688069542 (nimgs = [3 3 3])
+lattice sum = 237 cells
+precision = 1e-08
+pseudo = gth-pade
+ke_cutoff = 131.03337219722505
+    = [62 62 62] mesh (238328 PWs)
+ew_eta = 1.57274
+ew_cut = 4.339167744519483 (nimgs = [1 1 1])
+
+WARN: HOMO -0.0183457853396196 == LUMO -0.0183457853396125
+
+
+
+******** <class 'pyscf.soscf.newton_ah.SecondOrderRHF'> flags ********
+method = SecondOrderRHF-RKS-RHF-SCF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /scratch/local/jyu5/tmp9ynvmM
+max_memory 20000 MB (current use 88 MB)
+******** PBC SCF flags ********
+kpt = [0. 0. 0.]
+Exchange divergence treatment (exxdiv) = ewald
+    madelung (= occupied orbital energy shift) = 0.22014613136303995
+    Total energy shift due to Ewald probe charge = -1/2 * Nelec*madelung/cell.vol = -1.98131518227
+DF object = <pyscf.pbc.df.fft.FFTDF object at 0x7f4e23559ed0>
+
+
+******** <class 'pyscf.pbc.df.fft.FFTDF'> flags ********
+mesh = [62 62 62] (238328 PWs)
+len(kpts) = 1
+XC functionals = lda
+Uniform grid, mesh = [62 62 62]
+Set conv_tol_grad to 3.16228e-05
+Initial guess |g|= 0.509197
+  HOMO = -0.3338766499097  LUMO = -0.154145623465489
+macro= 0  E= -56.0464505012517  delta_E= -56.0465  |g|= 0.509197  2 KF 5 JK
+macro= 1  E= -56.0491912710887  delta_E= -0.00274077  |g|= 0.000688462  4 KF 17 JK
+macro= 2  E= -56.0491983413498  delta_E= -7.07026e-06  |g|= 0.000201541  3 KF 18 JK
+macro= 3  E= -56.0491996936027  delta_E= -1.35225e-06  |g|= 0.000222678  1 KF 5 JK
+macro= 4  E= -56.0492071953011  delta_E= -7.5017e-06  |g|= 0.000207787  3 KF 16 JK
+macro= 5  E= -56.0492083538013  delta_E= -1.1585e-06  |g|= 0.000246239  1 KF 5 JK
+macro= 6  E= -56.0492122949955  delta_E= -3.94119e-06  |g|= 0.000708194  2 KF 11 JK
+macro= 7  E= -56.0492135119851  delta_E= -1.21699e-06  |g|= 0.000202653  1 KF 5 JK
+macro= 8  E= -56.0492208116467  delta_E= -7.29966e-06  |g|= 0.000172131  3 KF 17 JK
+macro= 9  E= -56.0492219627373  delta_E= -1.15109e-06  |g|= 0.000227227  1 KF 5 JK
+macro= 10  E= -56.0492288261244  delta_E= -6.86339e-06  |g|= 0.000178536  3 KF 16 JK
+macro= 11  E= -56.0492298868025  delta_E= -1.06068e-06  |g|= 0.000216968  1 KF 5 JK
+macro= 12  E= -56.0492331922098  delta_E= -3.30541e-06  |g|= 0.000663935  2 KF 9 JK
+macro= 13  E= -56.0492338137306  delta_E= -6.21521e-07  |g|= 0.000179433  1 KF 5 JK
+macro= 14  E= -56.0492368220612  delta_E= -3.00833e-06  |g|= 0.000571605  2 KF 11 JK
+macro= 15  E= -56.0492394017864  delta_E= -2.57973e-06  |g|= 0.000161585  2 KF 10 JK
+macro= 16  E= -56.0492440776944  delta_E= -4.67591e-06  |g|= 0.00014369  2 KF 13 JK
+macro= 17  E= -56.0492449255102  delta_E= -8.47816e-07  |g|= 0.000169452  1 KF 5 JK
+macro= 18  E= -56.0492472032327  delta_E= -2.27772e-06  |g|= 0.000580408  1 KF 9 JK
+macro= 19  E= -56.0492476932264  delta_E= -4.89994e-07  |g|= 0.000134635  1 KF 6 JK
+macro= 20  E= -56.0492509167295  delta_E= -3.2235e-06  |g|= 0.000280096  2 KF 13 JK
+macro= 21  E= -56.0492534695826  delta_E= -2.55285e-06  |g|= 0.000409022  3 KF 16 JK
+macro= 22  E= -56.0492547787847  delta_E= -1.3092e-06  |g|= 0.000221315  2 KF 8 JK
+macro= 23  E= -56.0492551555189  delta_E= -3.76734e-07  |g|= 0.000122619  1 KF 5 JK
+macro= 24  E= -56.0492563695299  delta_E= -1.21401e-06  |g|= 0.000433271  2 KF 9 JK
+macro= 25  E= -56.0492565159832  delta_E= -1.46453e-07  |g|= 0.000123703  1 KF 5 JK
+macro= 26  E= -56.0492575787946  delta_E= -1.06281e-06  |g|= 0.000358895  2 KF 12 JK
+macro= 27  E= -56.0492580165617  delta_E= -4.37767e-07  |g|= 0.000135312  1 KF 6 JK
+macro= 28  E= -56.0492581188027  delta_E= -1.02241e-07  |g|= 0.000210803  1 KF 6 JK
+macro= 29  E= -56.0492598364831  delta_E= -1.71768e-06  |g|= 0.000150433  3 KF 19 JK
+macro= 30  E= -56.0492611675315  delta_E= -1.33105e-06  |g|= 9.46649e-05  3 KF 15 JK
+macro= 31  E= -56.0492622378119  delta_E= -1.07028e-06  |g|= 6.51151e-05  2 KF 13 JK
+macro= 32  E= -56.0492624165903  delta_E= -1.78778e-07  |g|= 7.15724e-05  1 KF 5 JK
+macro= 33  E= -56.0492632851363  delta_E= -8.68546e-07  |g|= 6.36767e-05  2 KF 13 JK
+macro= 34  E= -56.0492634146268  delta_E= -1.2949e-07  |g|= 6.20374e-05  1 KF 5 JK
+macro= 35  E= -56.0492638668698  delta_E= -4.52243e-07  |g|= 0.000237503  1 KF 7 JK
+macro= 36  E= -56.0492643669065  delta_E= -5.00037e-07  |g|= 5.22594e-05  2 KF 15 JK
+macro= 37  E= -56.0492645905607  delta_E= -2.23654e-07  |g|= 4.87903e-05  1 KF 7 JK
+macro= 38  E= -56.0492646550585  delta_E= -6.44978e-08  |g|= 4.51752e-05  1 KF 5 JK
+macro= 39  E= -56.0492648681746  delta_E= -2.13116e-07  |g|= 0.000170974  1 KF 8 JK
+macro= 40  E= -56.0492650358407  delta_E= -1.67666e-07  |g|= 4.09267e-05  1 KF 8 JK
+macro= 41  E= -56.0492651853107  delta_E= -1.4947e-07  |g|= 3.82659e-05  1 KF 8 JK
+macro= 42  E= -56.0492652808971  delta_E= -9.55864e-08  |g|= 3.62171e-05  1 KF 5 JK
+macro= 43  E= -56.0492654121085  delta_E= -1.31211e-07  |g|= 0.000198587  1 KF 8 JK
+macro= 44  E= -56.0492654328927  delta_E= -2.07842e-08  |g|= 2.89971e-05  1 KF 5 JK
+macro= 45  E= -56.0492655474821  delta_E= -1.14589e-07  |g|= 0.000132316  1 KF 11 JK
+macro= 46  E= -56.0492655575388  delta_E= -1.00567e-08  |g|= 3.68929e-05  1 KF 5 JK
+macro= 47  E= -56.0492656097608  delta_E= -5.2222e-08  |g|= 8.57584e-05  1 KF 6 JK
+macro= 48  E= -56.0492657779372  delta_E= -1.68176e-07  |g|= 3.63394e-05  2 KF 18 JK
+macro= 49  E= -56.0492658039619  delta_E= -2.60247e-08  |g|= 2.72978e-05  1 KF 5 JK
+Canonicalize SCF orbitals
+macro X = 50  E=-56.0492658039619  |g|= 2.72978e-05  total 82 KF 471 JK
+
+WARN: HOMO -0.15624500612142306 > LUMO -0.22865420659603963 was found in the canonicalized orbitals.
+
+SCF not converged.
+SCF energy = -56.0492658039619
+DFT energy (per unit cell) = -56.049265803961923
+DFT compute time 2037.21017313

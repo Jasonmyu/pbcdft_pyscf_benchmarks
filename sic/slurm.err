@@ -1,0 +1,4 @@
+/usr/local/apps/anaconda2/4.2.0/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+/home/jyu5/pyscf/pyscf/pbc/tools/lattice.py:88: UserWarning: Use ase.build.bulk() instead
+  ase_atom = bulk('SiC', 'zincblende', a=4.350*A2B)

@@ -1,0 +1,134 @@
+tmpdir is set to /home/jyu5/work/testsets/bn
+#INFO: **** input file is /home/jyu5/work/testsets/bn/pyscf_bn.py ****
+#!/usr/bin/env python
+
+from pyscf.pbc import gto, scf, dft
+import numpy
+import time
+from pyscf.pbc.tools import lattice,pyscf_ase
+import ase
+
+cell = gto.Cell()
+ase_atom = lattice.get_ase_atom('bn')
+cell.atom=pyscf_ase.ase_atoms_to_pyscf(ase_atom)
+cell.a=ase_atom.cell
+cell.basis = 'gth-dzvp'
+cell.pseudo = 'gth-pade'
+cell.verbose=4
+cell.build()
+
+#mf = scf.RHF(cell)
+#ehf = mf.kernel()
+#print("HF energy (per unit cell) = %.17g" % ehf)
+
+start = time.time()
+
+mf = dft.RKS(cell)
+mf = mf.newton()
+mf.xc = 'lda'
+mf.direct_scf=True
+edft = mf.kernel()
+print("DFT energy (per unit cell) = %.17g" % edft)
+
+
+end = time.time()
+print 'DFT compute time', (end-start)
+
+#INFO: ******************** input file end ********************
+
+
+System: ('Linux', 'pauling044', '3.10.0-327.36.3.el7.x86_64', '#1 SMP Thu Oct 20 04:56:07 EDT 2016', 'x86_64', 'x86_64')  Threads 1
+Python 2.7.12 |Anaconda custom (64-bit)| (default, Jul  2 2016, 17:42:40) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]
+numpy 1.14.3  scipy 1.1.0
+Date: Wed May  9 13:25:37 2018
+PySCF version 1.5b
+PySCF path  /home/jyu5/pyscf/pyscf
+GIT HEAD      ref: refs/heads/dev
+GIT dev branch  712e40e23e7a7c928f2e0c27498b3fa5f122454b
+
+[ENV] PYSCF_MAX_MEMORY 20000
+[ENV] PYSCF_TMPDIR /scratch/local/jyu5
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 2
+[INPUT] num. electrons = 8
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT]  1 B      0.000000000000   0.000000000000   0.000000000000 AA    0.000000000000   0.000000000000   0.000000000000 Bohr
+[INPUT]  2 N      1.707839862559   1.707839862559   1.707839862559 AA    3.227349604851   3.227349604851   3.227349604851 Bohr
+
+nuclear repulsion = -6.96947231134568
+number of shells = 6
+number of NR pGTOs = 42
+number of NR cGTOs = 26
+basis = gth-dzvp
+ecp = {}
+CPU time:         0.43
+lattice vectors  a1 [0.000000000, 6.454699210, 6.454699210]
+                 a2 [6.454699210, 0.000000000, 6.454699210]
+                 a3 [6.454699210, 6.454699210, 0.000000000]
+dimension = 3
+Cell volume = 537.846
+rcut = 24.48836946722733 (nimgs = [4 4 4])
+lattice sum = 437 cells
+precision = 1e-08
+pseudo = gth-pade
+ke_cutoff = 227.10694347648013
+    = [51 51 51] mesh (132651 PWs)
+ew_eta = 2.02618
+ew_cut = 3.407263685310643 (nimgs = [1 1 1])
+
+WARN: HOMO -0.0980556152188309 == LUMO -0.098055615218821
+
+
+
+******** <class 'pyscf.soscf.newton_ah.SecondOrderRHF'> flags ********
+method = SecondOrderRHF-RKS-RHF-SCF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /scratch/local/jyu5/tmpjajQEU
+max_memory 20000 MB (current use 71 MB)
+******** PBC SCF flags ********
+kpt = [0. 0. 0.]
+Exchange divergence treatment (exxdiv) = ewald
+    madelung (= occupied orbital energy shift) = 0.35515691180279774
+    Total energy shift due to Ewald probe charge = -1/2 * Nelec*madelung/cell.vol = -1.42062764721
+DF object = <pyscf.pbc.df.fft.FFTDF object at 0x7f5be4048150>
+
+
+******** <class 'pyscf.pbc.df.fft.FFTDF'> flags ********
+mesh = [51 51 51] (132651 PWs)
+len(kpts) = 1
+XC functionals = lda
+Uniform grid, mesh = [51 51 51]
+Set conv_tol_grad to 3.16228e-05
+Initial guess |g|= 0.456549
+  HOMO = -0.144331515288271  LUMO = -0.140621680521471
+macro= 0  E= -12.2434716240077  delta_E= -12.2435  |g|= 0.218908  3 KF 18 JK
+macro= 1  E= -12.2610399980771  delta_E= -0.0175684  |g|= 0.0418485  4 KF 22 JK
+macro= 2  E= -12.2653194685384  delta_E= -0.00427947  |g|= 0.0297668  3 KF 22 JK
+macro= 3  E= -12.267472025775  delta_E= -0.00215256  |g|= 0.00418089  3 KF 10 JK
+macro= 4  E= -12.2674737796403  delta_E= -1.75387e-06  |g|= 0.000226913  2 KF 9 JK
+macro= 5  E= -12.267473817288  delta_E= -3.76477e-08  |g|= 3.98211e-05  1 KF 6 JK
+macro= 6  E= -12.2674738211061  delta_E= -3.81804e-09  |g|= 1.59196e-05  1 KF 6 JK
+macro= 7  E= -12.2674738211131  delta_E= -7.0326e-12  |g|= 5.38562e-06  1 KF 2 JK
+Canonicalize SCF orbitals
+macro X = 8  E=-12.2674738211131  |g|= 5.38562e-06  total 18 KF 95 JK
+
+WARN: HOMO -0.09515570472687288 > LUMO -0.12626754414551478 was found in the canonicalized orbitals.
+
+converged SCF energy = -12.2674738211131
+DFT energy (per unit cell) = -12.267473821113091
+DFT compute time 254.46389699
