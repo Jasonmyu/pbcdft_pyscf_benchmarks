@@ -1,0 +1,88 @@
+&GLOBAL
+  PROJECT Si_bulk8
+  RUN_TYPE ENERGY_FORCE
+  PRINT_LEVEL LOW
+&END GLOBAL
+&FORCE_EVAL
+  METHOD Quickstep
+  &SUBSYS
+    &KIND Zn
+      ELEMENT	Zn
+      BASIS_SET DZVP-GTH-PADE
+      POTENTIAL GTH-PADE-q12
+    &END KIND 
+    &KIND O
+      Element O
+      BASIS_SET DZVP-GTH-PADE
+      POTENTIAL GTH-PADE-q6
+    &END KIND
+    &CELL
+      A     6.14160946        0.0                  0.0
+      B     -3.07080473       5.31878982           0.0
+      C     0.0               0.0                  9.82657514
+    &END CELL
+    &COORD
+      Zn    0.000000000    0.000000000    0.000000000
+      O     0.0            3.54585988     1.17714181
+      Zn    0.0            3.54585988     4.91328757
+      O     0.0            0.0            6.09042939
+    &END COORD
+  &END SUBSYS
+  &DFT
+    BASIS_SET_FILE_NAME  BASIS_SET
+    POTENTIAL_FILE_NAME  GTH_POTENTIALS
+    &QS
+      EPS_DEFAULT 1.0E-6
+    &END QS
+    &MGRID
+      NGRIDS 4
+      CUTOFF 600
+      REL_CUTOFF 60
+    &END MGRID
+
+    &XC
+      &XC_FUNCTIONAL LDA
+      &END XC_FUNCTIONAL
+      &XC_GRID
+         XC_DERIV SPLINE2
+         XC_SMOOTH_RHO NN50
+      &END XC_GRID
+    &END XC
+    &SCF
+      SCF_GUESS ATOMIC
+      EPS_SCF 1.0E-6
+      MAX_SCF 300
+      ADDED_MOS 100
+      CHOLESKY INVERSE
+      &SMEAR ON
+         METHOD FERMI_DIRAC
+         ELECTRONIC_TEMPERATURE [K] 300
+      &END SMEAR
+      &OUTER_SCF
+         EPS_SCF 1.0E-6
+         MAX_SCF 500
+      &END OUTER_SCF
+      &DIAGONALIZATION  ON
+        ALGORITHM STANDARD
+        EPS_ADAPT 0.01
+      &END DIAGONALIZATION
+      &MIXING  T
+        METHOD BROYDEN_MIXING
+        ALPHA 0.2
+        BETA 1.5
+        NBROYDEN 8
+      &END MIXING
+    &END SCF
+    &PRINT
+       &MO_CUBES
+       WRITE_CUBE .FALSE.
+       NHOMO 1
+       NLUMO 1
+       &END
+    &END
+  &END DFT
+  &PRINT
+    &FORCES ON
+    &END FORCES
+  &END PRINT
+&END FORCE_EVAL
