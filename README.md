@@ -2,10 +2,14 @@
 PBC/DFT benchmark files of various crystals for Pyscf
 
 Parameters used:
+
 cell.basis = 'gth-dzvp'
+
 cell.pseudo = 'gth-pade'
 mf = mf.newton()
+
 mf.xc = 'lda'
+
 mf.direct_scf=True
 
 Note that basis sets for several atoms used in this benchmark pack may need to be added to:
