@@ -1,6 +1,8 @@
 # pbcdft_pyscf_benchmarks
 PBC/DFT benchmark files of various crystals for Pyscf
 
+Pyscf dev version: 712e40e23e7a7c928f2e0c27498b3fa5f122454b
+
 Parameters used:
 
 cell.basis = 'gth-dzvp'
