@@ -1,0 +1,160 @@
+tmpdir is set to /home/jyu5/work/testsets/c
+#INFO: **** input file is /home/jyu5/work/testsets/c/pyscf_c.py ****
+#!/usr/bin/env python
+
+'''
+Gamma point Hartree-Fock/DFT
+
+The 2-electron integrals are computed using Poisson solver with FFT by default.
+In most scenario, it should be used with pseudo potential.
+'''
+
+# Note import path which is different to molecule code
+from pyscf.pbc import gto, scf, dft
+import numpy
+import time
+
+cell = gto.Cell()
+# .a is a matrix for lattice vectors.
+cell.a = '''
+3.567        0            0
+0            3.567        0
+0            0            3.567'''
+cell.atom = '''
+              C    0.000000000    0.000000000    0.000000000
+              C    0.000000000    1.7835         1.7835
+              C    1.7835         1.7835         0.000000000
+              C    1.7835         0.000000000    1.7835
+              C    2.67525        0.89175        2.67525
+              C    0.89175        0.89175        0.89175
+              C    0.89175        2.67525        2.67525
+              C    2.67525        2.67525        0.89175
+              '''
+cell.basis = 'gth-dzvp'
+cell.pseudo = 'gth-pade'
+cell.verbose = 4
+cell.build()
+
+#mf = scf.RHF(cell)
+#ehf = mf.kernel()
+#print("HF energy (per unit cell) = %.17g" % ehf)
+
+start = time.time()
+
+mf = dft.RKS(cell)
+mf = mf.newton()
+mf.xc = 'lda'
+mf.direct_scf=True
+edft = mf.kernel()
+print("DFT energy (per unit cell) = %.17g" % edft)
+
+
+end = time.time()
+print 'DFT compute time', (end-start)
+#
+# By default, DFT use uniform cubic grids.  It can be replaced by atomic grids.
+#
+#mf = dft.RKS(cell)
+#mf.grids = dft.gen_grid.BeckeGrids(cell)
+#mf.xc = 'lda'
+#mf.kernel()
+
+#
+# Second order SCF solver can be used in the PBC SCF code the same way in the
+# molecular calculation
+#
+#mf = scf.RHF(cell).newton()
+#mf.kernel()
+
+#INFO: ******************** input file end ********************
+
+
+System: ('Linux', 'pauling038', '3.10.0-327.36.3.el7.x86_64', '#1 SMP Thu Oct 20 04:56:07 EDT 2016', 'x86_64', 'x86_64')  Threads 28
+Python 2.7.12 |Anaconda custom (64-bit)| (default, Jul  2 2016, 17:42:40) 
+[GCC 4.4.7 20120313 (Red Hat 4.4.7-1)]
+numpy 1.11.1  scipy 0.18.1
+Date: Mon May  7 15:32:26 2018
+PySCF version 1.5b
+PySCF path  /home/jyu5/pyscf/pyscf
+GIT HEAD      ref: refs/heads/dev
+GIT dev branch  712e40e23e7a7c928f2e0c27498b3fa5f122454b
+
+[CONFIG] conf_file None
+[INPUT] verbose = 4
+[INPUT] num. atoms = 8
+[INPUT] num. electrons = 32
+[INPUT] charge = 0
+[INPUT] spin (= nelec alpha-beta = 2S) = 0
+[INPUT] symmetry False subgroup None
+[INPUT] Mole.unit = angstrom
+[INPUT]  1 C      0.000000000000   0.000000000000   0.000000000000 AA    0.000000000000   0.000000000000   0.000000000000 Bohr
+[INPUT]  2 C      0.000000000000   1.783500000000   1.783500000000 AA    0.000000000000   3.370326543162   3.370326543162 Bohr
+[INPUT]  3 C      1.783500000000   1.783500000000   0.000000000000 AA    3.370326543162   3.370326543162   0.000000000000 Bohr
+[INPUT]  4 C      1.783500000000   0.000000000000   1.783500000000 AA    3.370326543162   0.000000000000   3.370326543162 Bohr
+[INPUT]  5 C      2.675250000000   0.891750000000   2.675250000000 AA    5.055489814743   1.685163271581   5.055489814743 Bohr
+[INPUT]  6 C      0.891750000000   0.891750000000   0.891750000000 AA    1.685163271581   1.685163271581   1.685163271581 Bohr
+[INPUT]  7 C      0.891750000000   2.675250000000   2.675250000000 AA    1.685163271581   5.055489814743   5.055489814743 Bohr
+[INPUT]  8 C      2.675250000000   2.675250000000   0.891750000000 AA    5.055489814743   5.055489814743   1.685163271581 Bohr
+
+nuclear repulsion = -51.145648709406
+number of shells = 24
+number of NR pGTOs = 168
+number of NR cGTOs = 104
+basis = gth-dzvp
+ecp = {}
+CPU time:         0.52
+lattice vectors  a1 [6.740653086, 0.000000000, 0.000000000]
+                 a2 [0.000000000, 6.740653086, 0.000000000]
+                 a3 [0.000000000, 0.000000000, 6.740653086]
+dimension = 3
+Cell volume = 306.271
+rcut = 20.6071062272 (nimgs = [4 4 4])
+lattice sum = 389 cells
+precision = 1e-08
+pseudo = gth-pade
+ke_cutoff = 160.778146106
+    = [39 39 39] mesh (59319 PWs)
+ew_eta = 1.71374
+ew_cut = 3.99791680496 (nimgs = [1 1 1])
+  HOMO = 0.496977435639628  LUMO = 0.703884476710746
+
+
+******** <class 'pyscf.soscf.newton_ah.SecondOrderRHF'> flags ********
+method = SecondOrderRHF-RKS-RHF-SCF
+initial guess = minao
+damping factor = 0
+level shift factor = 0
+DIIS = <class 'pyscf.scf.diis.CDIIS'>
+DIIS start cycle = 1
+DIIS space = 8
+SCF tol = 1e-09
+SCF gradient tol = None
+max. SCF cycles = 50
+direct_scf = True
+direct_scf_tol = 1e-13
+chkfile to save SCF result = /home/jyu5/work/testsets/c/tmpiJg2Np
+max_memory 4000 MB (current use 437 MB)
+******** PBC SCF flags ********
+kpt = [ 0.  0.  0.]
+Exchange divergence treatment (exxdiv) = ewald
+    madelung (= occupied orbital energy shift) = 0.420923231495
+    Total energy shift due to Ewald probe charge = -1/2 * Nelec*madelung/cell.vol = -6.73477170392
+DF object = <pyscf.pbc.df.fft.FFTDF object at 0x7fc742ef6e50>
+
+
+******** <class 'pyscf.pbc.df.fft.FFTDF'> flags ********
+mesh = [39 39 39] (59319 PWs)
+len(kpts) = 1
+XC functionals = lda
+Uniform grid, mesh = [39 39 39]
+Set conv_tol_grad to 3.16228e-05
+Initial guess |g|= 0.348943
+  HOMO = 0.513457699327765  LUMO = 0.667897705055847
+macro= 0  E= -45.1066730818975  delta_E= -45.1067  |g|= 0.348943  2 KF 5 JK
+macro= 1  E= -45.1066785789723  delta_E= -5.49707e-06  |g|= 0.00439514  1 KF 4 JK
+macro= 2  E= -45.1066785789775  delta_E= -5.21538e-12  |g|= 9.66928e-06  1 KF 2 JK
+Canonicalize SCF orbitals
+macro X = 3  E=-45.1066785789775  |g|= 9.66928e-06  total 4 KF 11 JK
+converged SCF energy = -45.1066785789775
+DFT energy (per unit cell) = -45.106678578977522
+DFT compute time 87.4893829823

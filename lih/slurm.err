@@ -1,0 +1,6 @@
+/usr/local/apps/anaconda2/4.2.0/lib/python2.7/site-packages/h5py/__init__.py:34: FutureWarning: Conversion of the second argument of issubdtype from `float` to `np.floating` is deprecated. In future, it will be treated as `np.float64 == np.dtype(float).type`.
+  from ._conv import register_converters as _register_converters
+/home/jyu5/pyscf/pyscf/pbc/tools/lattice.py:117: UserWarning: Use ase.build.bulk() instead
+  ase_atom = bulk('LiH', 'rocksalt', a=4.0834*A2B)
+srun: error: pauling038: task 0: Exited with exit code 2
+srun: Terminating job step 171712.0
